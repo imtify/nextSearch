@@ -5,6 +5,7 @@ import axios from "axios";
 const Dropdown = () => {
   const [items, setItems] = useState([]);
   const [searchItem, setSearchItem] = useState("");
+  const [selectItem, setSelectItem] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
@@ -24,68 +25,89 @@ const Dropdown = () => {
   };
 
   const handleInputClick = () => {
-    setShowDropdown(true);
-  };
-
-  const handleDoubleClick = () => {
-    setShowDropdown(false);
+    setShowDropdown((prevDropdown) => !prevDropdown);
     setSearchItem("");
   };
 
-  const handleSelectItem = (item) => {
+  const handleClickItem = (item) => {
     setSearchItem(item.name);
-    setShowDropdown(false); // Show all items in dropdown
+    setShowDropdown(false);
+    setSelectItem(false);
   };
 
   const handleHoverItem = (item) => {
     setSearchItem(item.name);
+    setShowDropdown(true);
+    setSelectItem(true);
   };
+
+  const filteredItems = items.filter((item) =>
+    item.name.toLowerCase().includes(searchItem.toLowerCase())
+  );
 
   return (
     <div
-      style={{ position: "relative", display: "inline-block", margin: "16px" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        margin: "16px",
+      }}
     >
+      <h1>NextSearch</h1>
       <input
         type="text"
         placeholder="Search..."
         value={searchItem}
         onChange={handleInputChange}
         onClick={handleInputClick}
-        onDoubleClick={handleDoubleClick}
-        style={{ width: "200px", padding: "8px", borderRadius: "4px" }}
+        style={{ width: "250px", padding: "8px", borderRadius: "4px" }}
       />
       {showDropdown && (
         <div
           style={{
-            position: "absolute",
-            top: "100%",
-            left: 0,
-            zIndex: 999,
             background: "#fff",
             border: "1px solid #ccc",
             borderRadius: "4px",
-            maxHeight: "100px",
-            overflowY: "auto",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            padding: "5px",
+            maxHeight: "200px",
+            width: "250px",
+            overflowY: "scroll",
+            padding: "8px",
           }}
         >
-          {items.map((item) => (
-            <div
-              key={item.id}
-              onMouseEnter={() => handleHoverItem(item)}
-              onClick={() => handleSelectItem(item)}
-              style={{
-                padding: "5px",
-                cursor: "pointer",
-                borderBottom: "1px solid #ccc",
-                backgroundColor:
-                  searchItem === item.name ? "#f5f5f5" : "transparent",
-              }}
-            >
-              {item.name}
-            </div>
-          ))}
+          {selectItem
+            ? items.map((item) => (
+                <div
+                  key={item.id}
+                  onMouseEnter={() => handleHoverItem(item)}
+                  onClick={() => handleClickItem(item)}
+                  style={{
+                    padding: "5px",
+                    cursor: "pointer",
+                    borderBottom: "1px solid #ccc",
+                    backgroundColor:
+                      searchItem === item.name ? "#f5f5f5" : "transparent",
+                  }}
+                >
+                  {item.name}
+                </div>
+              ))
+            : filteredItems.map((item) => (
+                <div
+                  key={item.id}
+                  onMouseEnter={() => handleHoverItem(item)}
+                  onClick={() => handleClickItem(item)}
+                  style={{
+                    padding: "5px",
+                    cursor: "pointer",
+                    borderBottom: "1px solid #ccc",
+                    backgroundColor:
+                      searchItem === item.name ? "#f5f5f5" : "transparent",
+                  }}
+                >
+                  {item.name}
+                </div>
+              ))}
         </div>
       )}
     </div>

@@ -4,7 +4,7 @@ import axios from "axios";
 
 const Dropdown = () => {
   const [items, setItems] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchItem, setSearchItem] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const Dropdown = () => {
   }, []);
 
   const handleInputChange = (e) => {
-    setSearchTerm(e.target.value);
+    setSearchItem(e.target.value);
     setShowDropdown(true);
   };
 
@@ -29,16 +29,16 @@ const Dropdown = () => {
 
   const handleDoubleClick = () => {
     setShowDropdown(false);
-    setSearchTerm("");
+    setSearchItem("");
   };
 
   const handleSelectItem = (item) => {
-    setSearchTerm(item.name);
+    setSearchItem(item.name);
     setShowDropdown(false); // Show all items in dropdown
   };
 
   const handleHoverItem = (item) => {
-    setSearchTerm(item.name);
+    setSearchItem(item.name);
   };
 
   return (
@@ -48,7 +48,7 @@ const Dropdown = () => {
       <input
         type="text"
         placeholder="Search..."
-        value={searchTerm}
+        value={searchItem}
         onChange={handleInputChange}
         onClick={handleInputClick}
         onDoubleClick={handleDoubleClick}
@@ -80,7 +80,7 @@ const Dropdown = () => {
                 cursor: "pointer",
                 borderBottom: "1px solid #ccc",
                 backgroundColor:
-                  searchTerm === item.name ? "#f5f5f5" : "transparent",
+                  searchItem === item.name ? "#f5f5f5" : "transparent",
               }}
             >
               {item.name}

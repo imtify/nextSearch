@@ -1,12 +1,11 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Dropdown = () => {
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
-  // const inputRef = useRef(null);
 
   useEffect(() => {
     axios
@@ -42,32 +41,8 @@ const Dropdown = () => {
     setSearchTerm(item.name);
   };
 
-  //Disappear Dropdown list by outside click
-
-  // const handleOutsideClick = (e) => {
-  //   if (inputRef.current && !inputRef.current.contains(e.target)) {
-  //     setShowDropdown(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", handleOutsideClick);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleOutsideClick);
-  //   };
-  // }, []);
-
-  //Item show in dropdown list which you select or focus
-
-  // const filteredItems = items.filter((item) =>
-  //   item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-
-  // const displayItems = searchTerm ? filteredItems : items;
-
   return (
     <div
-      // ref={inputRef}
       style={{ position: "relative", display: "inline-block", margin: "16px" }}
     >
       <input

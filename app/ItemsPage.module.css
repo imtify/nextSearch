@@ -1,0 +1,6 @@
+/* Add this CSS to your stylesheet or component */
+.autosuggest-suggestions-container {
+  max-height: 200px; /* Limit height to 200px */
+  overflow-y: auto; /* Add scrollbar for overflow */
+  width: fit-content; /* Set width based on content */
+}
